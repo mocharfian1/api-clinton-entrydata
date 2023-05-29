@@ -34,7 +34,7 @@ app.use(upload.single('image'));
 
 app.post('/', function (req, res) {
     console.log(req.file)
-    res.send('Hello World!')
+    res.send('Hello World! Version 1.1')
 })
 
 require('./app/routes')(app);
