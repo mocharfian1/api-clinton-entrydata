@@ -2,10 +2,10 @@ const express = require('express')
 const bodyParser = require('body-parser');
 var multer = require('multer');
 var log4js = require("log4js");
-// log4js.configure({
-//     appenders: { clinton: { type: "file", filename: "api-clinton-entrydata.log" } },
-//     categories: { default: { appenders: ["clinton"], level: "debug" } },
-// });
+log4js.configure({
+    appenders: { clinton: { type: "file", filename: "api-clinton-entrydata.log" } },
+    categories: { default: { appenders: ["clinton"], level: "debug" } },
+});
 global.logger = log4js.getLogger();
 logger.level = "debug"
 logger.debug("Some debug messages");
