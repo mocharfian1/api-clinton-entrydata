@@ -1,58 +1,45 @@
 module.exports = (sequelize, Sequelize) => {
-    return sequelize.define('M_USER', {
-        telp: {
-            type: Sequelize.DECIMAL,
-        },
-        nama_lengkap: {
+    return sequelize.define('T_UPLOAD_PHOTO', {
+        no_ktp:{
             type: Sequelize.STRING,
         },
-        no_ktp: {
+        message:{
             type: Sequelize.STRING,
         },
-        no_kk: {
+        code:{
             type: Sequelize.STRING,
         },
-        password: {
+        fieldname:{
             type: Sequelize.STRING,
         },
-        tempat_lahir: {
+        originalname:{
             type: Sequelize.STRING,
         },
-        tanggal_lahir: {
+        encoding:{
             type: Sequelize.STRING,
         },
-        koordinator: {
+        mimetype:{
             type: Sequelize.STRING,
         },
-        provinsi: {
+        destination:{
             type: Sequelize.STRING,
         },
-        kabkota: {
+        filename:{
             type: Sequelize.STRING,
         },
-        kecamatan: {
+        path:{
             type: Sequelize.STRING,
         },
-        kelurahan: {
+        size:{
             type: Sequelize.STRING,
         },
-        rt: {
+        status:{
             type: Sequelize.STRING,
-        },
-        rw: {
-            type: Sequelize.STRING,
-        },
-        alamat_lengkap: {
-            type: Sequelize.STRING,
-        },
-        status: {
-            type: Sequelize.STRING
-        },
-        deleted_at: {
-            type: Sequelize.STRING,
-        },
+        }
     }, {
         freezeTableName: true,
         underscored: true
     });
 }
+
+
