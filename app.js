@@ -32,7 +32,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(upload.single('image'));
 
-app.post('/', function (req, res) {
+app.get('/', function (req, res) {
     console.log(req.file)
     res.send('Hello World! Version 1.1')
 })
