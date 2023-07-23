@@ -24,44 +24,31 @@ async function authorize() {
  * Create a new file on google drive.
  * @param {OAuth2Client} authClient An authorized OAuth2 client.
  */
-async function uploadFile(authClient) {
+async function uploadFile(authClient, filename) {
     const drive = google.drive({ version: 'v3', auth: authClient });
 
     var fileMetadata = {
-        'name': 'photo-' + new Date().getTime() + '.txt',
+        'name': filename,
         'parents': ['1SgSYRAdTFwpvvwIjRUmUSmwRiI9MAy1Q']
     };
     var media = {
         mimeType: 'text/plain',
-        body: fs.createReadStream('./api-clinton-entrydata.log') //
+        body: fs.createReadStream(`./${filename}`) //
     };
 
-    // for(let i=0; i<20; i++){
     return await drive.files.create({
         resource: fileMetadata,
         media: media,
         fields: "id"
     });
-    // }
-
 }
 
-const uploadToDriveFunc = async (req, res)=>{
+const uploadToDriveFunc = async (filename)=>{
     return await authorize().then(async (auth)=>{
-        await uploadFile(auth)
-        res.status(200).json({
-            success: false,
-            message: "Berhasil upload ke Google Drive.",
-            messageDetail: "Berhasil upload ke Google Drive.",
-            data: null
-        })
+        await uploadFile(auth, filename)
+        return 200;
     }).catch(()=>{
-        res.status(400).json({
-            success: false,
-            message: "Gagal upload ke Google Drive.",
-            messageDetail: "Gagal upload ke Google Drive.",
-            data: null
-        })
+        return 400;
     });
 }
 

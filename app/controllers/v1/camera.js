@@ -1,5 +1,6 @@
 const { PhotoModel } = require('../../helper/db')
 const sharp = require('sharp');
+const { uploadToDrive } = require('./gdrive')
 
 const uploadImage = async function (req, res) {
     logger.info(req)
@@ -15,6 +16,8 @@ const uploadImage = async function (req, res) {
             .toFile(toSubmitPhoto.destination + toSubmitPhoto.filename + '.thumb', function(err) {
                 logger.error('Compress Image : ', err)
             });
+
+        uploadToDrive(toSubmitPhoto.destination + toSubmitPhoto.filename)
         logger.info('Sukses menambahkan data Gambar')
         res.json({ success: true })
     }).catch((e)=>{
