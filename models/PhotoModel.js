@@ -30,6 +30,9 @@ module.exports = (sequelize, Sequelize) => {
         path:{
             type: Sequelize.STRING,
         },
+        gdrive_link:{
+            type: Sequelize.STRING,
+        },
         size:{
             type: Sequelize.STRING,
         },
