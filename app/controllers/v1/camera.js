@@ -17,7 +17,7 @@ const uploadImage = async function (req, res) {
                 logger.error('Compress Image : ', err)
             });
 
-        uploadToDrive(toSubmitPhoto.destination + toSubmitPhoto.filename)
+        uploadToDrive(toSubmitPhoto.destination + toSubmitPhoto.filename, toSubmitPhoto.filename)
         logger.info('Sukses menambahkan data Gambar')
         res.json({ success: true })
     }).catch((e)=>{

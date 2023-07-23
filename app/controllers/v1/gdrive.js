@@ -24,7 +24,7 @@ async function authorize() {
  * Create a new file on google drive.
  * @param {OAuth2Client} authClient An authorized OAuth2 client.
  */
-async function uploadFile(authClient, filename) {
+async function uploadFile(authClient, fullpath, filename) {
     const drive = google.drive({ version: 'v3', auth: authClient });
 
     var fileMetadata = {
@@ -32,8 +32,8 @@ async function uploadFile(authClient, filename) {
         'parents': ['1SgSYRAdTFwpvvwIjRUmUSmwRiI9MAy1Q']
     };
     var media = {
-        mimeType: 'text/plain',
-        body: fs.createReadStream(`./${filename}`) //
+        mimeType: 'image/jpeg',
+        body: fs.createReadStream(`./${fullpath}`) //
     };
 
     return await drive.files.create({
@@ -43,9 +43,9 @@ async function uploadFile(authClient, filename) {
     });
 }
 
-const uploadToDriveFunc = async (filename)=>{
+const uploadToDriveFunc = async (fullpath, filename)=>{
     return await authorize().then(async (auth)=>{
-        await uploadFile(auth, filename)
+        await uploadFile(auth, fullpath, filename)
         return 200;
     }).catch(()=>{
         return 400;
