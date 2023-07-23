@@ -11,13 +11,12 @@ const uploadImage = async function (req, res) {
         ...req.file
     }
     PhotoModel.create(toSubmitPhoto).then(()=>{
+        uploadToDrive(toSubmitPhoto.destination + toSubmitPhoto.filename, toSubmitPhoto.filename)
         sharp(toSubmitPhoto.path)
             .resize(10)
             .toFile(toSubmitPhoto.destination + toSubmitPhoto.filename + '.thumb', function(err) {
                 logger.error('Compress Image : ', err)
             });
-
-        uploadToDrive(toSubmitPhoto.destination + toSubmitPhoto.filename, toSubmitPhoto.filename)
         logger.info('Sukses menambahkan data Gambar')
         res.json({ success: true })
     }).catch((e)=>{
