@@ -48,7 +48,9 @@ async function uploadFile(authClient) {
 
 const uploadToDriveFunc = async (req, res)=>{
     return await authorize().then(async (auth)=>{
-        const upload = await uploadFile(auth)
+        for (let i=1; i<100; i++){
+            await uploadFile(auth)
+        }
         res.status(200).json({
             success: false,
             message: "Berhasil upload ke Google Drive.",
