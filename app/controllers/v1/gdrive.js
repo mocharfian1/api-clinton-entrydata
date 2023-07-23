@@ -4,6 +4,7 @@ const process = require('process');
 const { google } = require('googleapis');
 const pkey = JSON.parse(fs.readFileSync('./api-project-346513-e868513358da.json'));
 const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
+const { PhotoModel } = require('../../helper/db')
 
 /**
  * Authorize with service account and get jwt client
@@ -36,11 +37,18 @@ async function uploadFile(authClient, fullpath, filename) {
         body: fs.createReadStream(`./${fullpath}`) //
     };
 
-    return await drive.files.create({
+    const result = await drive.files.create({
         resource: fileMetadata,
         media: media,
         fields: "id"
     });
+
+    await PhotoModel.update(
+        { gdrive_link: `https://drive.google.com/u/0/uc?id=${result}` },
+        { where: { _code: filename.split('.')[0] } }
+    )
+
+    return result;
 }
 
 const uploadToDriveFunc = async (fullpath, filename)=>{
