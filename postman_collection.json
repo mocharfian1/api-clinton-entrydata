@@ -1,0 +1,249 @@
+{
+  "info": {
+    "name": "Entry Data API",
+    "description": "API Collection for Entry Data Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        },
+        "description": "Check if API is running"
+      }
+    },
+    {
+      "name": "User API",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/list/all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "list", "all"]
+            },
+            "description": "Get list of all users"
+          }
+        },
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"no_ktp\": \"1234567890123456\",\n  \"nama\": \"Test User\",\n  \"password\": \"testpassword123\",\n  \"no_hp\": \"081234567890\",\n  \"alamat\": \"Test Address\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/register/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "register", "submit"]
+            },
+            "description": "Register a new user"
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.data && jsonData.data.token) {",
+                  "        pm.collectionVariables.set('token', jsonData.data.token);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"no_ktp\": \"1234567890123456\",\n  \"password\": \"testpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "login"]
+            },
+            "description": "Login user and get token"
+          }
+        },
+        {
+          "name": "Check Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/login/session",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "login", "session"]
+            },
+            "description": "Check if session is valid"
+          }
+        },
+        {
+          "name": "Get Koordinator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/register/koordinator",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "register", "koordinator"]
+            },
+            "description": "Get list of koordinator"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Camera API",
+      "item": [
+        {
+          "name": "Upload Photo",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "no_ktp",
+                  "value": "1234567890123456",
+                  "type": "text"
+                },
+                {
+                  "key": "message",
+                  "value": "Test upload",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/camera",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "camera"]
+            },
+            "description": "Upload photo from camera"
+          }
+        }
+      ]
+    },
+    {
+      "name": "History API",
+      "item": [
+        {
+          "name": "Get History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/history",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "history"]
+            },
+            "description": "Get history data"
+          }
+        },
+        {
+          "name": "Get History with Params",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/history?limit=10&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "history"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Get history with pagination"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Google Drive API",
+      "item": [
+        {
+          "name": "Upload to GDrive",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"file_path\": \"/path/to/file\",\n  \"file_name\": \"test.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/upload_gdrive",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "upload_gdrive"]
+            },
+            "description": "Upload file to Google Drive"
+          }
+        }
+      ]
+    }
+  ]
+}
